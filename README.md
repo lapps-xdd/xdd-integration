@@ -27,7 +27,20 @@ Running the code from inside the container:
 root@cd69e2d49b48:/app# sh run.sh
 ```
 
-Output is written to a new directory on the container named `/data/output` adn therefore also to the local mounted directory. The output includes intermediate files and the final output in the form of a JSON file `/data/output/ela/elastic.json`, which can be used for a batch import to ElasticSearch.
+Output is written to a new directory on the container named `/data/output` and therefore also to the local mounted directory. The structure of the output directory is
+
+```
+output/
+├── doc
+├── ela
+├── mer
+├── ner
+├── pos
+└── trm
+```
+
+This includes intermediate files in the `doc`, `mer`, `ner`, `pos` and `trm` directories, and the final output in the form of a JSON file `/data/output/ela/elastic.json`, which can be used for a batch import to ElasticSearch.
+
 
 ### Metadata file
 

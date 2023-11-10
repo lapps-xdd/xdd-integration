@@ -1,4 +1,6 @@
-FROM python:3.11.6-bookworm
+FROM python:3.11.6-slim-bookworm
+
+RUN apt-get -y update && apt-get install -y git
 
 WORKDIR /app
 
