@@ -33,8 +33,8 @@ python ner.py --doc /data/output/doc --pos /data/output/pos --ner /data/output/n
 
 echo "\n>>> Running term extraction"
 cd ../../xdd-terms/code
-python pos2phr.py -i /data/output/pos
-python accumulate.py -i /data/output/trm
+python pos2phr.py --pos /data/output/pos --out /data/output/trm
+python accumulate.py --terms /data/output/trm
 
 # Merging
 

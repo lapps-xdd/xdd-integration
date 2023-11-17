@@ -77,7 +77,8 @@ This is assumed to be  a list of metadata records, each with the folowing struct
 
 At the moment, the only fields that are extracted are title, year and authors. The code will not break if the fields in `metadata.json` do not comply, but there won't be any results.
 
-<!--
+
+### Preocessing details
 
 This repository integrates processing from three repositories:
 
@@ -85,4 +86,12 @@ This repository integrates processing from three repositories:
 - [https://github.com/lapps-xdd/xdd-processing](https://github.com/lapps-xdd/xdd-processing)
 - [https://github.com/lapps-xdd/xdd-terms.git](https://github.com/lapps-xdd/xdd-terms.git)
 
--->
+And it runs the following steps:
+
+1. document structure parser
+2. spaCy NER
+3. term extraction
+4. merging layers
+5. creating ElasticSearch file
+
+Step 1 is implemented in [https://github.com/lapps-xdd/xdd-docstructure](https://github.com/lapps-xdd/xdd-docstructure), steps 2, 4 and 5 in [https://github.com/lapps-xdd/xdd-processing](https://github.com/lapps-xdd/xdd-processing), and step 4 in [https://github.com/lapps-xdd/xdd-terms.git](https://github.com/lapps-xdd/xdd-terms.git).
