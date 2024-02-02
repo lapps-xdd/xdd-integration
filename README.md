@@ -15,11 +15,11 @@ Creating a Docker image and starting and entering the container:
 
 ```
 $ docker build -t xdd .
-$ docker run --rm -it -v /Users/Shared/data/xdd/doc2vec/topic_doc2vecs/biomedical:/data xdd bash
+$ docker run --rm -it -v /Users/Shared/data/xdd/topics/subsets/tiny-biomedical:/data xdd-dev bash
 root@cd69e2d49b48:/app#
 ```
 
-The docker-run command above assumes a local directory `/Users/Shared/data/xdd/doc2vec/topic_doc2vecs/biomedical`, update that path as needed.
+The docker-run command above assumes a local directory `/Users/Shared/data/topics/subsets/tiny-biomedical`, update that path as needed.
 
 Running the code from inside the container:
 
