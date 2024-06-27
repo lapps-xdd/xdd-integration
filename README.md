@@ -51,6 +51,25 @@ docker run -it -v /Users/Shared/data/xdd/example:/data xdd-llama3 bash
 root@cd69e2d49b48:/app#
 ```
 
+While installing Ollama I got the following warning:
+
+```
+Step 3/9 : RUN curl -fsSL https://ollama.com/install.sh | sh
+ ---> Running in 509b16bc561d
+>>> Downloading ollama...
+######################################################################## 100.0%#=#=#                                  ######################################################################## 100.0%
+>>> Installing ollama to /usr/local/bin...
+>>> Creating ollama user...
+>>> Adding ollama user to video group...
+>>> Adding current user to ollama group...
+>>> Creating ollama systemd service...
+WARNING: Unable to detect NVIDIA/AMD GPU. Install lspci or lshw to automatically detect and install GPU dependencies.
+>>> The Ollama API is now available at 127.0.0.1:11434.
+>>> Install complete. Run "ollama" from the command line.
+Removing intermediate container 509b16bc561d
+ ---> 619d9b548fe1
+```
+
 --
 
 Running the code from inside the container:
