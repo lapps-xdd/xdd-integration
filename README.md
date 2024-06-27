@@ -3,7 +3,7 @@
 Repository that integrates all xDD processing into one Docker container. The container uses a directory mounted into `/data` and this directory should have the following structure:
 
 ```
-data
+.
 ├── metadata.json
 ├── scienceparse
 └── text
@@ -13,13 +13,45 @@ When the container script runs it will read files from `text` and `scienceparse`
 
 Creating a Docker image and starting and entering the container:
 
-```
-$ docker build -t xdd .
-$ docker run --rm -it -v /Users/Shared/data/xdd/topics/subsets/tiny-biomedical:/data xdd-dev bash
+```shell
+docker build -t xdd .
+docker run -it -v /Users/Shared/data/xdd/example:/data xdd bash
 root@cd69e2d49b48:/app#
 ```
 
-The docker-run command above assumes a local directory `/Users/Shared/data/topics/subsets/tiny-biomedical`, update that path as needed.
+The docker-run command above assumes a local directory `/Users/Shared/data/xdd/example`, update that path as needed.
+
+--
+
+<span style="color: #ff0000">
+This section, until the next horizontal line, needs to be updated.
+</span> 
+ 
+The container is not yet set up to deal with summarization using Ollama. For this you need to start the Ollama service and download the Llama3 model:
+
+```shell
+ollama start &
+ollama pull llama3
+```
+
+The model is stored in `/root/.ollama/models`, this is different from what is said in the FAQ at [https://github.com/ollama/ollama/blob/main/docs/faq.md](https://github.com/ollama/ollama/blob/main/docs/faq.md).
+
+> Note. That only happens when you pull as root, it did not happen later once I used systemctl to start ollama and then used `ollama pull <model-name>`.
+
+At this point, when we remove the container we also lose the model, which is suboptimal since it was a 4GB+ download. For the models we should probably use a Docker volume, but for now we save the container into an image:
+
+```shell
+docker commit <container-name> xdd-llama3
+```
+
+This can take 5-10 minutes and it will create a 7GB image. You can start this image as usual:
+
+```shell
+docker run -it -v /Users/Shared/data/xdd/example:/data xdd-llama3 bash
+root@cd69e2d49b48:/app#
+```
+
+--
 
 Running the code from inside the container:
 
@@ -36,6 +68,7 @@ output/
 ├── mer
 ├── ner
 ├── pos
+├── sum
 └── trm
 ```
 

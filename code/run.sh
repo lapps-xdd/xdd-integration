@@ -60,7 +60,7 @@ echo "tag ${tag}"
 echo ">>> Updating repositories"
 
 cd code
-for repo in xdd-docstructure xdd-processing xdd-terms; do
+for repo in xdd-docstructure xdd-processing xdd-llms xdd-terms; do
        echo "${repo}"
        cd $repo
        git pull --all --quiet
@@ -89,10 +89,16 @@ cd ../../xdd-terms/code
 python pos2phr.py --pos /data/output/pos --out /data/output/trm
 python accumulate.py --terms /data/output/trm
 
+echo "\n>>> Running Llama summarizer"
+systemctl start ollama
+cd ../../xdd-llms/
+python -m run_llm.run_ollama --doc /data/output/doc --sum /data/output/sum
+
+
 # Merging
 
 echo "\n>>> Merging layers"
-cd ../../xdd-processing/code
+cd ../xdd-processing/code
 python merge.py \
 	--scpa /data/scienceparse --doc /data/output/doc --ner /data/output/ner \
 	--trm /data/output/trm --meta /data/metadata.json --out /data/output/mer
