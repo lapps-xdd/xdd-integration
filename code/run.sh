@@ -1,4 +1,4 @@
-# Script that runs all xDD pre-processing
+# Script that runs all xDD pre-processing before summarization was added
 # =============================================================================
 
 # Uses three repositories that were already cloned in the image, but are updated

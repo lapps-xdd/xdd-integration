@@ -23,3 +23,13 @@ Your new public key is:
 
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBPz1jLXICvIXF5jPhqI1nqLJ0PhuHfZxjSuImCKFG+o
 ```
+
+Starting Ollama on the container and loading the model:
+
+```shell
+ollama start &
+ollama pull llama3
+```
+
+
+At some point the model was stored in `/root/.ollama/models`, this is different from what is said in the FAQ at [https://github.com/ollama/ollama/blob/main/docs/faq.md](https://github.com/ollama/ollama/blob/main/docs/faq.md). I think that only happens when you pull as root, it did not happen later once I used systemctl to start ollama and then used `ollama pull <model-name>`.
