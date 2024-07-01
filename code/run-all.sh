@@ -1,4 +1,4 @@
-# Script that runs all xDD pre-processing before summarization was added
+# Script that runs all xDD pre-processing, including summarization
 # =============================================================================
 
 # Uses three repositories that were already cloned in the image, but are updated
@@ -61,7 +61,7 @@ echo "tag ${tag}"
 echo ">>> Updating repositories"
 
 cd code
-for repo in xdd-docstructure xdd-processing xdd-terms; do
+for repo in xdd-docstructure xdd-processing xdd-llms xdd-terms; do
        echo "${repo}"
        cd $repo
        git pull --all --quiet
@@ -79,27 +79,32 @@ done
 
 echo "\n>>> Running document structure parser"
 cd xdd-docstructure/code
-python parse.py --scpa /data/scienceparse --text /data/text --out /data/output/doc
+python3 parse.py --scpa /data/scienceparse --text /data/text --out /data/output/doc
 
 echo "\n>>> Running spaCy NER"
 cd ../../xdd-processing/code
-python ner.py --doc /data/output/doc --pos /data/output/pos --ner /data/output/ner
+python3 ner.py --doc /data/output/doc --pos /data/output/pos --ner /data/output/ner
 
 echo "\n>>> Running term extraction"
 cd ../../xdd-terms/code
-python pos2phr.py --pos /data/output/pos --out /data/output/trm
-python accumulate.py --terms /data/output/trm
+python3 pos2phr.py --pos /data/output/pos --out /data/output/trm
+python3 accumulate.py --terms /data/output/trm
+
+echo "\n>>> Running Llama summarizer"
+cd ../../xdd-llms/code
+python3 -m llm.run_ollama --doc /data/output/doc --sum /data/output/sum
 
 
 # Merging
 
 echo "\n>>> Merging layers"
-cd ../xdd-processing/code
-python merge.py \
+cd ../../xdd-processing/code
+python3 merge.py \
 	--scpa /data/scienceparse --doc /data/output/doc --ner /data/output/ner \
-	--trm /data/output/trm --meta /data/metadata.json --out /data/output/mer
+	--trm /data/output/trm --sum /data/output/sum --meta /data/metadata.json \
+    --out /data/output/mer
 
 # Creation of JSON file for ElasticSearch
 
 echo "\n>>> Creating ElasticSearch file"
-python prepare_elastic.py -i /data/output/mer -o /data/output/ela
+python3 prepare_elastic.py -i /data/output/mer -o /data/output/ela
